@@ -3,18 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkSoulsRandoTracker", "DarkSoulsRandoTracker\DarkSoulsRandoTracker.csproj", "{1E7A6DF8-7B4D-40D1-9B95-9C58E7E1E9F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DarkSoulsRandoTracker", "DarkSoulsRandoTracker\DarkSoulsRandoTracker.csproj", "{7A5F92C0-A789-4653-9C3C-259DFEEF92B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1E7A6DF8-7B4D-40D1-9B95-9C58E7E1E9F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E7A6DF8-7B4D-40D1-9B95-9C58E7E1E9F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E7A6DF8-7B4D-40D1-9B95-9C58E7E1E9F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E7A6DF8-7B4D-40D1-9B95-9C58E7E1E9F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A5F92C0-A789-4653-9C3C-259DFEEF92B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A5F92C0-A789-4653-9C3C-259DFEEF92B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A5F92C0-A789-4653-9C3C-259DFEEF92B5}.Debug|x86.ActiveCfg = Debug|x86
+		{7A5F92C0-A789-4653-9C3C-259DFEEF92B5}.Debug|x86.Build.0 = Debug|x86
+		{7A5F92C0-A789-4653-9C3C-259DFEEF92B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A5F92C0-A789-4653-9C3C-259DFEEF92B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A5F92C0-A789-4653-9C3C-259DFEEF92B5}.Release|x86.ActiveCfg = Release|x86
+		{7A5F92C0-A789-4653-9C3C-259DFEEF92B5}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

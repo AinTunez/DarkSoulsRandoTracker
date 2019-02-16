@@ -1,0 +1,289 @@
+$(document).ready(function() {
+    var socket = io('/admin');
+    var connected = false;
+    var wrapper = $('#wrapper');
+    var layout_edit = false;
+    var sortable_groups, sortable = [];
+    var last_group_id = 0;
+
+    $('#layout-switcher').on('change', function() {
+        wrapper.removeClass('vertical horizontal-right horizontal-left').addClass(this.value);
+        socket.emit('style changed', this.value);
+        style = this.value;
+    });
+
+    $('#scale').val(parseFloat(scale)*100);
+
+    $('#scale').on('change', function() {
+        let val = this.value / 100;
+        socket.emit('scale changed', val);
+    });
+
+    const save_sort_order = function() {
+        let tmp = sortable_groups.toArray()
+        let group_order = [];
+        let groups = {};
+        
+        for (let idx in tmp) {
+            let gid = parseInt(tmp[idx]);
+            let items = sortable[gid].toArray();
+            if (items.length) {
+                group_order.push(gid);
+                groups[gid] = items;
+            } else {
+                sortable[gid].destroy();
+                delete sortable[gid];
+                $('#group-'+gid).remove();
+                if (hidden_groups.includes(gid)) {
+                    let index = hidden_groups.indexOf(gid);
+                    if (index > -1) {
+                        hidden_groups.splice(index, 1);
+                    }
+                }
+            }
+        }
+        socket.emit('sorted', group_order, groups, hidden_groups);
+    }
+
+    const make_hide_toggle = function(el) {
+        el.on('click', function(e){
+            e.preventDefault();
+            let parent = $(this).closest('div');
+            let group_id = parent.data('group');
+            if (hidden_groups.includes(group_id)) {
+                $(this).removeClass('fa-toggle-off fa-toggle-on').addClass('fa-toggle-on');
+                let index = hidden_groups.indexOf(group_id);
+                if (index > -1) {
+                    hidden_groups.splice(index, 1);
+                }
+                parent.removeClass('hidden');
+            } else {
+                $(this).removeClass('fa-toggle-off fa-toggle-on').addClass('fa-toggle-off');
+                hidden_groups.push(group_id);
+                parent.addClass('hidden');
+            }
+        });
+    }
+
+    $('#edit').on('click', function(){
+        if (!layout_edit) {
+            $('body').addClass('admin-edit');
+            $(this).text('Save').attr('title', 'Save new layout');
+            // wrapper.removeClass('vertical horizontal-right horizontal-left').addClass(style);
+        } else {
+            $('body').removeClass('admin-edit');
+            $(this).text('Edit').attr('title', 'Edit layout');
+            // wrapper.removeClass('vertical horizontal-right horizontal-left').addClass('horizontal-left');
+            save_sort_order();
+        }
+        layout_edit = !layout_edit;
+        sortable_groups.option("disabled", !layout_edit);
+        for (idx in sortable) {
+            sortable[idx].option("disabled", !layout_edit);
+        }
+    });
+
+    $('#add-group').on('click', function(e){
+        last_group_id += 1;
+        let container = $('<div/>', {class: 'sort-container', 'data-group': last_group_id, id: 'group-' + last_group_id});
+        let item_list = $('<ul/>', {'data-group': last_group_id});
+        container.append($('<i/>', {class: 'fa fa-arrows fa-2x', 'aria-hidden': 'true'}));
+        let hide_toggle = $('<i/>', {class: 'fa fa-toggle-on fa-2x toggle', 'aria-hidden': 'true'}).text('Display');
+        make_hide_toggle(hide_toggle)
+        container.append(hide_toggle);
+        container.append(item_list);
+        wrapper.append(container);
+        for (idx in sortable) {
+            sortable[idx].destroy();
+        }
+        sortable = {};
+        $('ul').each(function(e) {
+            let s = Sortable.create(this, {
+                group: 'items',
+                dataIdAttr: 'data-id',
+                disabled: false
+            });
+            let group_id = $(this).data('group')
+            sortable[group_id] = s;
+        });
+    });
+
+    let unused_ids = Object.keys(layout_items);
+    let create_group = function(group_id, items, hidden) {
+        let container = $('<div/>', {class: 'sort-container', 'data-group': group_id, id: 'group-'+group_id});
+        let item_list = $('<ul/>', {'data-group': group_id});
+
+        if (group_id > last_group_id) {
+            last_group_id = group_id;
+        }
+
+        for (let j in items) {
+            let item_id = items[j];
+            let item = layout_items[item_id];
+            let listitem = $('<li />', {'data-id': item.id});
+            let image = $('<img>', {
+                'src': (use_marked && 'marked_src' in item) ? item.marked_src : item.src,
+                'title': item.name,
+                'class': 'keyitem',
+                'data-id': item.id,
+                'id': 'key-' + item.id,
+                'data-src': item.src,
+                'data-markedsrc': ('marked_src' in item) ? item.marked_src : item.src,
+            });
+
+            if (active_ids.indexOf(item.id) < 0) {
+                image.addClass('inactive');
+            }
+
+            listitem.append(image);
+            listitem.append($('<br>'));
+            listitem.append($('<span>').html(item.name));
+            item_list.append(listitem);
+
+            let idx = unused_ids.indexOf(item_id);
+            if (idx < 0) {
+                idx = unused_ids.indexOf(item_id.toString());
+            }
+            if (idx > -1) {
+                unused_ids.splice(idx, 1);
+            }
+        }
+        container.append($('<i/>', {class: 'fa fa-arrows fa-2x drag-handle', 'aria-hidden': 'true'}));
+        let toggle_class = 'fa-toggle-on';
+        
+        if (hidden) {
+            toggle_class = 'fa-toggle-off';
+            container.addClass('hidden');
+        }
+        var hide_toggle = $('<i/>', {class: 'fa fa-2x toggle ' + toggle_class, 'aria-hidden': 'true', 'title': 'Display this group'}).text('Display');
+        make_hide_toggle(hide_toggle);
+        container.append(hide_toggle);
+        container.append(item_list);
+        wrapper.append(container);
+    }
+    
+    for (let i in group_order) {
+        let group_id = parseInt(group_order[i]);
+        create_group(group_id, groups[group_id], hidden_groups.includes(group_id));
+    }
+
+    if(unused_ids.length) {
+        create_group(last_group_id+1, unused_ids.slice(), true);
+        if(hidden_groups.includes(last_group_id)) {
+            hidden_groups.push(last_group_id);
+        }
+    }
+
+    $("li", wrapper).on('click', function(e) {
+        if(layout_edit) {
+            return;
+        }
+        e.preventDefault();
+        let image = $('img', this);
+
+        let id = image.data('id');
+        image.toggleClass('inactive');
+        let is_active = !image.hasClass('inactive');
+        if (!is_active) {
+            let index = active_ids.indexOf(id);
+            active_ids.splice(index, 1);
+        } else {
+            active_ids.push(id);
+        }
+        socket.emit('activation changed', { id: id, is_active: is_active });
+    });
+
+    $("#reset").on('click', function(e) {
+        e.preventDefault();
+        let  r = confirm('Clear all marked keys?');
+        if (r) {
+            $('img', $("li", wrapper)).addClass('inactive');
+            socket.emit('reset');
+        }
+    });
+
+    $("#reset-layout").on('click', function(e) {
+        let  r = confirm('Reset layout?');
+        if (r) {
+            socket.emit('reset layout');
+        }
+    });
+
+    $("#use-marked").on('click', function(e) {
+        use_marked = !use_marked;
+        socket.emit('use marked', use_marked);
+        $('img.keyitem').each(function(index) {
+            $(this).attr('src', $(this).data((use_marked) ? 'markedsrc' : 'src'));
+        });
+        if(use_marked) {
+            $(this).removeClass('fa-toggle-off fa-toggle-on').addClass('fa-toggle-on');
+        } else {
+            $(this).removeClass('fa-toggle-off fa-toggle-on').addClass('fa-toggle-off');
+        }
+    });
+
+    socket.on('connect', function(ata) {
+        connected = true;
+        $('#error').html('');
+        console.log('connected');
+    });
+
+    socket.on('disconnect', function() {
+        connected = false;
+        console.log('disconnected');
+        $('#error').html('Disconnected');
+    });
+
+    socket.on('reconnect', function() {
+        connected = true;
+        console.log('reconnected');
+        $('#error').html('');
+    });
+
+    socket.on('reconnect_error', function() {
+        console.log('attempt to reconnect has failed');
+        $('#error').html('Cannot reconnect');
+    });
+
+
+    socket.on('active', function(data) {
+        $('img', $("li", wrapper)).addClass('inactive');
+        for (let idx in data) {
+            let key_no = data[idx]
+            $('#key-' + key_no).removeClass('inactive');
+        }
+    });
+
+    socket.on('last change', function(new_change, source_id) {
+        if (source_id == socket.id) {
+            last_change = new_change;
+        } else {
+            if(last_change != new_change) {
+                console.log('Data changed on another admin session. Reloading.');
+                window.location.reload();
+            }
+        }
+    });
+    
+
+    socket.on('error', e => console.log('error', e.type));
+    
+    sortable_groups = Sortable.create(document.getElementById('wrapper'), {
+        group: 'cont',
+        handle: 'i.drag-handle',
+        dataIdAttr: 'data-group',
+        disabled: true
+    });
+
+    $('ul').each(function(e) {
+        let s = Sortable.create(this, {
+            group: 'items',
+            dataIdAttr: 'data-id',
+            disabled: true
+        });
+        let group_id = $(this).data('group')
+        sortable[group_id] = s;
+    });
+
+    new Clipboard('#copy-url');
+});

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DarkSoulsRandoTracker")]
+[assembly: AssemblyTitle("TKTracker")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DarkSoulsRandoTracker")]
+[assembly: AssemblyProduct("TKTracker")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1e7a6df8-7b4d-40d1-9b95-9c58e7e1e9f3")]
+[assembly: Guid("7a5f92c0-a789-4653-9c3c-259dfeef92b5")]
 
 // Version information for an assembly consists of the following four values:
 //

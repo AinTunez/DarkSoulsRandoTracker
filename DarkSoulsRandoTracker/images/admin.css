@@ -1,0 +1,175 @@
+li {
+    list-style-type: none;
+}
+
+img {
+    filter: drop-shadow(5px 5px 3px black)
+    drop-shadow(-5px 5px 3px black)
+    drop-shadow(5px -5px 3px black)
+    drop-shadow(-5px -5px 3px black);
+}
+
+img.inactive {
+    filter: drop-shadow(5px 5px 5px black) grayscale(1) brightness(.5);
+    opacity: .7;
+}
+
+#wrapper ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#wrapper div.hidden {
+    display: none;
+}
+
+.admin-edit #wrapper div.hidden {
+    display: block;
+}
+
+#wrapper.vertical {
+    display: flex;
+    flex-direction: row;
+}
+
+#wrapper.horizontal-left {
+    display: flex;
+    flex-direction: column;
+}
+
+/* #wrapper.vertical ul {
+    flex-direction: column;
+    flex-wrap: wrap;
+} */
+
+#wrapper.horizontal-left ul {
+    justify-content: flex-start;
+}
+
+#wrapper.horizontal-right {
+    display: flex;
+    flex-direction: column;
+}
+
+#wrapper.horizontal-right  ul {
+    justify-content: flex-end;
+}
+
+#wrapper li {
+    max-width: 100px;
+    text-align: center;
+}
+
+.admin-edit #wrapper li {
+    touch-action: none;
+}
+
+#wrapper li span { 
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-bottom: 3px;
+    color: #ffffff;
+    background-color: #333;
+    position: relative; 
+    z-index: 999;
+    display: inline-block;
+}
+
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+}
+
+#error {
+    background-color: red;
+    color: black;
+}
+
+#error:empty {
+    display: hidden;
+}
+
+body.dragging, body.dragging * {
+    cursor: move !important;
+  }
+  
+.dragged {
+    position: absolute;
+    opacity: 0.5;
+    z-index: 2000;
+}
+
+.sort-container:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.vertical .sort-container {
+    float: left;
+}
+
+.handle {
+    display: block;
+}
+
+#admin_keys i {
+    margin-right: 1em;
+}
+
+#admin-submenu {
+    display: none;
+}
+
+.admin-edit #admin-submenu {
+    display: block;
+}
+
+i {
+    cursor: pointer;
+}
+
+i.toggle {
+    cursor: pointer;
+}
+
+.sort-container i {
+    display: none;
+}
+
+.admin-edit .sort-container i {
+    cursor: move;
+    display: block;
+}
+
+.admin-edit .sort-container i.toggle {
+    cursor: pointer;
+}
+
+.admin-edit .sort-container li {
+    cursor: move;
+}
+
+#layout-switcher {
+    font-size: 130%;
+}
+
+ul:empty {
+    min-height: 100px;
+    min-width: 100px;
+}
+
+#footer {
+    margin-top: 50px;
+    display: block;
+    clear: both;
+}
+
+.admin-edit i.drag-handle {
+    touch-action: none;
+}
+
+.created_by {
+    font-size: 70%;
+}

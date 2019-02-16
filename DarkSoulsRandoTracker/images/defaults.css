@@ -1,0 +1,16 @@
+body {
+    background-color: #B0C4DE;
+    color: black;
+}
+
+ul {
+    min-height: 15px;
+}
+
+a {
+    color: darkblue;
+}
+
+a:visited {
+    color: darkblue;
+}
