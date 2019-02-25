@@ -86,14 +86,12 @@
             // 
             // KeyGroupPanel
             // 
-            this.KeyGroupPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.KeyGroupPanel.BackColor = System.Drawing.Color.Black;
-            this.KeyGroupPanel.Location = new System.Drawing.Point(0, 30);
+            this.KeyGroupPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.KeyGroupPanel.Location = new System.Drawing.Point(0, 28);
             this.KeyGroupPanel.Margin = new System.Windows.Forms.Padding(3, 30, 3, 3);
             this.KeyGroupPanel.Name = "KeyGroupPanel";
-            this.KeyGroupPanel.Size = new System.Drawing.Size(965, 534);
+            this.KeyGroupPanel.Size = new System.Drawing.Size(965, 543);
             this.KeyGroupPanel.TabIndex = 0;
             // 
             // statusStrip1
@@ -118,8 +116,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(965, 596);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.KeyGroupPanel);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
