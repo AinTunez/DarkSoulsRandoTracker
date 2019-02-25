@@ -1,13 +1,9 @@
-﻿using PropertyHook;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 using System.Xml;
@@ -27,9 +23,10 @@ namespace DSItemTracker
 
         public GUI()
         {
-            ThisGUI = this;
             InitializeComponent();
+            ThisGUI = this;
 
+        
             if (File.Exists("Default.xml")) ReadLayoutFromXMLFile("Default.xml");
 
             Timer.AutoReset = true;
@@ -51,8 +48,7 @@ namespace DSItemTracker
                 var keys = items.Where(i => i.Category == 4 && KeyNames.Keys.Contains(i.ID));
                 var rings = items.Where(i => i.Category == 2 && RingNames.Keys.Contains(i.ID));
                 var itemIDs = keys.Concat(rings).Select(i => i.ID);
-                foreach (int i in Display.Keys)
-                    Display[i].SetFound(itemIDs.Contains(i));
+                foreach (int i in Display.Keys) Display[i].SetFound(itemIDs.Contains(i));
             }
 
             RingNames[138] = "Covenant of Artorias";
@@ -93,7 +89,7 @@ namespace DSItemTracker
         private void configureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var config = new Configure();
-            var k = KeyNames.Concat(RingNames).ToList();
+            var k = KeyNames.Concat(RingNames).Cast<KeyValuePair<int, string>>().OrderBy(item => item.Value).ToList();
             if (Layout == null)
             {
                 foreach (var x in k) config.UntrackedBox.Items.Add(x);
@@ -124,6 +120,10 @@ namespace DSItemTracker
             var oNode = doc.CreateElement("Options");
             oNode.SetAttribute("Columns", Layout.Columns.ToString());
             oNode.SetAttribute("Compact", Layout.Compact.ToString());
+            oNode.SetAttribute("ForeColorFound", Layout.ForeColorFound.ToArgb().ToString());
+            oNode.SetAttribute("ForeColorMissing", Layout.ForeColorMissing.ToArgb().ToString());
+            oNode.SetAttribute("BackColor", Layout.BackColor.ToArgb().ToString());
+
             var groupsNode = doc.CreateElement("Groups");
             foreach (var group in Layout.Groups)
             {
@@ -137,6 +137,7 @@ namespace DSItemTracker
                 }
                 groupsNode.AppendChild(groupNode);
             }
+
             var untrackedNode = doc.CreateElement("Untracked");
             foreach (var kv in Layout.Untracked)
             {
@@ -169,9 +170,12 @@ namespace DSItemTracker
             private Configure cfg;
             public bool Compact = false;
             public List<List<KeyDisplay>> Groups = new List<List<KeyDisplay>>();
-            public List<KeyValuePair<int, string>> Untracked = new List<KeyValuePair<int, string>>();
+            public SortedList<int, string> Untracked = new SortedList<int, string>();
             public bool Columns = true;
             public Dictionary<int, KeyDisplay> Display;
+            public Color ForeColorFound;
+            public Color ForeColorMissing;
+            public Color BackColor;
 
             public ItemLayout(Configure c, GUI g)
             {
@@ -182,9 +186,15 @@ namespace DSItemTracker
                 Columns = c.ColumnBtn.Checked;
                 Compact = c.CompactBox.Checked;
                 Untracked = c.Untracked;
-                Untracked.OrderBy(i => i.Key);
+                Untracked.OrderBy(i => i.Value);
                 if (Columns) g.KeyGroupPanel.FlowDirection = FlowDirection.LeftToRight;
                 else g.KeyGroupPanel.FlowDirection = FlowDirection.TopDown;
+
+                ForeColorFound = c.ForeColorFound;
+                ForeColorMissing = c.ForeColorMissing;
+                BackColor = c.BackColor;
+
+                g.KeyGroupPanel.BackColor = BackColor;
 
                 List<KeyDisplay>[] lists = { cfg.GroupA, cfg.GroupB, cfg.GroupC, cfg.GroupD };
                 foreach (var list in lists.Where(l => l != null))
@@ -230,26 +240,37 @@ namespace DSItemTracker
             var doc = new XmlDocument();
             try
             {
-                void NodeToBox(XmlNode groupNode, ListBox box)
+                void NodeToBox(XmlNode groupNode, ListBox box, bool sorted = false)
                 {
                     var items = groupNode.ChildNodes;
+                    var list = new List<KeyValuePair<int, string>>();
                     foreach (XmlNode node in items)
                     {
                         int ID = int.Parse(node.Attributes["ID"].Value);
                         string Name = node.Attributes["Name"].Value;
-                        box.Items.Add(new KeyValuePair<int, string>(ID, Name));
+                        list.Add(new KeyValuePair<int, string>(ID, Name));
                     }
+                    if (sorted) list = list.Cast<KeyValuePair<int, string>>().OrderBy(item => item.Value).ToList();
+                    foreach (var item in list) box.Items.Add(item);
                 }
 
                 doc.LoadXml(File.ReadAllText(file));
                 var groups = doc.GetElementsByTagName("Group");
                 for (int i = 0; i < groups.Count; i++) NodeToBox(groups[i], config.boxes[i + 1]);
-                NodeToBox(doc.GetElementsByTagName("Untracked")[0], config.UntrackedBox);
-                bool columns = doc.GetElementsByTagName("Options")[0].Attributes["Columns"].Value == "true";
+                NodeToBox(doc.GetElementsByTagName("Untracked")[0], config.UntrackedBox, true);
+
+                var options = doc.GetElementsByTagName("Options")[0];
+                bool columns = options.Attributes["Columns"].Value == "true";
                 config.ColumnBtn.Checked = columns;
                 config.RowBtn.Checked = !columns;
-                config.CompactBox.Checked = doc.GetElementsByTagName("Options")[0].Attributes["Compact"].Value == "true";
+
+                config.CompactBox.Checked = options.Attributes["Compact"].Value == "true";
+                config.BackColor = Color.FromArgb(int.Parse(options.Attributes["BackColor"].Value));
+                config.ForeColorFound = Color.FromArgb(int.Parse(options.Attributes["ForeColorFound"].Value));
+                config.ForeColorMissing = Color.FromArgb(int.Parse(options.Attributes["ForeColorMissing"].Value));
+
                 config.OutputData();
+                config.SortUntracked();
                 Layout = new ItemLayout(config, this);
             }
             catch (Exception ex)

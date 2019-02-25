@@ -16,12 +16,16 @@ namespace DSItemTracker
         public string Name;
         public readonly int ID;
         private bool Collected = false;
+        public Color Found;
+        public Color Missing;
         private Image Item;
 
-        public KeyDisplay(string name, int id, Image img)
+        public KeyDisplay(string name, int id, Image img, Color f, Color m)
         {
             InitializeComponent();
             this.SizeChanged += KeyDisplay_SizeChanged;
+            Found = f;
+            Missing = m;
             KeyName.Width = Width;
             KeyName.Dock = DockStyle.Bottom;
             KeyName.Text = name;
@@ -38,7 +42,7 @@ namespace DSItemTracker
             if (!force && isFound == Collected) return;
             Collected = isFound;
             KeyPic.Image = isFound ? Item : MakeGrayscale3(SetAlpha(Item, 120));
-            KeyName.ForeColor = isFound ? Color.White : Color.DarkRed;
+            KeyName.ForeColor = isFound ? Found : Missing;
         }
 
         private static Bitmap SetAlpha(Image bmpIn, int alpha)
