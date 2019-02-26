@@ -13,7 +13,6 @@ namespace DSItemTracker
     public partial class GUI : Form
     {
         public ItemLayout Layout;
-        public GUI ThisGUI;
         public DS1Hook Hook = new DS1Hook();
         public static int RefreshRate = 125;
         public System.Timers.Timer Timer = new System.Timers.Timer(RefreshRate);
@@ -24,9 +23,7 @@ namespace DSItemTracker
         public GUI()
         {
             InitializeComponent();
-            ThisGUI = this;
-
-        
+                
             if (File.Exists("Default.xml")) ReadLayoutFromXMLFile("Default.xml");
 
             Timer.AutoReset = true;
