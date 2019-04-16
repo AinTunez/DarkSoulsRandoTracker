@@ -15,7 +15,7 @@ namespace DSItemTracker
     {
         public string Name;
         public readonly int ID;
-        private bool Collected = false;
+        public bool Collected = false;
         public Color Found;
         public Color Missing;
         private Image Item;
@@ -23,7 +23,7 @@ namespace DSItemTracker
         public KeyDisplay(string name, int id, Image img, Color f, Color m)
         {
             InitializeComponent();
-            this.SizeChanged += KeyDisplay_SizeChanged;
+            SizeChanged += KeyDisplay_SizeChanged;
             Found = f;
             Missing = m;
             KeyName.Width = Width;
@@ -41,9 +41,47 @@ namespace DSItemTracker
         {
             if (!force && isFound == Collected) return;
             Collected = isFound;
-            KeyPic.Image = isFound ? Item : MakeGrayscale3(SetAlpha(Item, 120));
+            KeyPic.Image = isFound ? Item : AdjustImage(Item, 0.2f, 0f);
             KeyName.ForeColor = isFound ? Found : Missing;
         }
+
+        private Bitmap AdjustImage(Image image, float brightness, float saturation)
+        {
+            // Make the ColorMatrix.
+            float b = brightness;
+            float s = saturation;
+            ColorMatrix cm = new ColorMatrix(
+                new float[][]
+                {
+                    new float[] {b, 0, 0, 0, 0},
+                    new float[] {0, b, 0, 0, 0},
+                    new float[] {0, 0, b, 0, 0},
+                    new float[] {0, 0, 0, 1, 0},
+                    new float[] {s, s, s, 0, 0},
+                });
+
+
+            ImageAttributes attributes = new ImageAttributes();
+            attributes.SetColorMatrix(cm);
+
+            // Draw the image onto the new bitmap while applying
+            // the new ColorMatrix.
+            Point[] points =
+            {
+                new Point(0, 0),
+                new Point(image.Width, 0),
+                new Point(0, image.Height),
+            };
+            Rectangle rect = new Rectangle(0, 0, image.Width, image.Height);
+
+            // Make the result bitmap.
+            Bitmap bm = new Bitmap(image.Width, image.Height);
+            Graphics.FromImage(bm).DrawImage(image, points, rect, GraphicsUnit.Pixel, attributes);
+
+            // Return the result.
+            return bm;
+        }
+
 
         private static Bitmap SetAlpha(Image bmpIn, int alpha)
         {
@@ -56,7 +94,7 @@ namespace DSItemTracker
             new float[] {0, 1, 0, 0, 0},
             new float[] {0, 0, 1, 0, 0},
             new float[] {0, 0, 0, a, 0},
-            new float[] {0, 0, 0, 0, 1}};
+            new float[] {0, 0, 0, 0, 0}};
 
             ColorMatrix colorMatrix = new ColorMatrix(matrixItems);
 
@@ -69,7 +107,7 @@ namespace DSItemTracker
             return bmpOut;
         }
 
-        private static Bitmap MakeGrayscale3(Bitmap original)
+        private static Bitmap MakeGrayscale3(Image original)
         {
             //create a blank bitmap the same size as original
             Bitmap newBitmap = new Bitmap(original.Width, original.Height);

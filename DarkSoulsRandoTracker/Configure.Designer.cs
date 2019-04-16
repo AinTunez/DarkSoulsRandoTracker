@@ -45,6 +45,12 @@
             this.CompactBox = new System.Windows.Forms.CheckBox();
             this.CancelBtn = new System.Windows.Forms.Button();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.BackColorBtn = new System.Windows.Forms.Button();
+            this.ForeColorMissingBtn = new System.Windows.Forms.Button();
+            this.ForeColorFoundBtn = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.shortcutsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,12 +60,6 @@
             this.moveItemsRightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveCursorLeftToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.moveCursorRightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ForeColorFoundBtn = new System.Windows.Forms.Button();
-            this.ForeColorMissingBtn = new System.Windows.Forms.Button();
-            this.BackColorBtn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -73,10 +73,11 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.UntrackedBox);
-            this.groupBox2.Location = new System.Drawing.Point(223, 22);
+            this.groupBox2.Location = new System.Drawing.Point(167, 18);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(10);
-            this.groupBox2.Size = new System.Drawing.Size(222, 373);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.groupBox2.Size = new System.Drawing.Size(166, 303);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Untracked";
@@ -87,23 +88,26 @@
             this.UntrackedBox.DisplayMember = "Value";
             this.UntrackedBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.UntrackedBox.FormattingEnabled = true;
-            this.UntrackedBox.ItemHeight = 16;
-            this.UntrackedBox.Location = new System.Drawing.Point(10, 25);
+            this.UntrackedBox.Location = new System.Drawing.Point(8, 21);
+            this.UntrackedBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.UntrackedBox.Name = "UntrackedBox";
             this.UntrackedBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.UntrackedBox.Size = new System.Drawing.Size(202, 338);
+            this.UntrackedBox.Size = new System.Drawing.Size(150, 274);
+            this.UntrackedBox.Sorted = true;
             this.UntrackedBox.TabIndex = 6;
             this.UntrackedBox.ValueMember = "Key";
             this.UntrackedBox.SelectedIndexChanged += new System.EventHandler(this.Box_SelectedIndexChanged);
             this.UntrackedBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Configure_KeyDown);
+            this.UntrackedBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Box_MouseDown);
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.GroupA_Box);
-            this.groupBox1.Location = new System.Drawing.Point(445, 22);
+            this.groupBox1.Location = new System.Drawing.Point(334, 18);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(10);
-            this.groupBox1.Size = new System.Drawing.Size(222, 373);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.groupBox1.Size = new System.Drawing.Size(166, 303);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Group A";
@@ -114,23 +118,25 @@
             this.GroupA_Box.DisplayMember = "Value";
             this.GroupA_Box.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupA_Box.FormattingEnabled = true;
-            this.GroupA_Box.ItemHeight = 16;
-            this.GroupA_Box.Location = new System.Drawing.Point(10, 25);
+            this.GroupA_Box.Location = new System.Drawing.Point(8, 21);
+            this.GroupA_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.GroupA_Box.Name = "GroupA_Box";
             this.GroupA_Box.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.GroupA_Box.Size = new System.Drawing.Size(202, 338);
+            this.GroupA_Box.Size = new System.Drawing.Size(150, 274);
             this.GroupA_Box.TabIndex = 6;
             this.GroupA_Box.ValueMember = "Key";
             this.GroupA_Box.SelectedIndexChanged += new System.EventHandler(this.Box_SelectedIndexChanged);
             this.GroupA_Box.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Configure_KeyDown);
+            this.GroupA_Box.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Box_MouseDown);
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.GroupB_Box);
-            this.groupBox3.Location = new System.Drawing.Point(667, 22);
+            this.groupBox3.Location = new System.Drawing.Point(500, 18);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(10);
-            this.groupBox3.Size = new System.Drawing.Size(222, 373);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.groupBox3.Size = new System.Drawing.Size(166, 303);
             this.groupBox3.TabIndex = 12;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Group B";
@@ -141,23 +147,25 @@
             this.GroupB_Box.DisplayMember = "Value";
             this.GroupB_Box.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupB_Box.FormattingEnabled = true;
-            this.GroupB_Box.ItemHeight = 16;
-            this.GroupB_Box.Location = new System.Drawing.Point(10, 25);
+            this.GroupB_Box.Location = new System.Drawing.Point(8, 21);
+            this.GroupB_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.GroupB_Box.Name = "GroupB_Box";
             this.GroupB_Box.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.GroupB_Box.Size = new System.Drawing.Size(202, 338);
+            this.GroupB_Box.Size = new System.Drawing.Size(150, 274);
             this.GroupB_Box.TabIndex = 6;
             this.GroupB_Box.ValueMember = "Key";
             this.GroupB_Box.SelectedIndexChanged += new System.EventHandler(this.Box_SelectedIndexChanged);
             this.GroupB_Box.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Configure_KeyDown);
+            this.GroupB_Box.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Box_MouseDown);
             // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.GroupC_Box);
-            this.groupBox4.Location = new System.Drawing.Point(889, 22);
+            this.groupBox4.Location = new System.Drawing.Point(667, 18);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(10);
-            this.groupBox4.Size = new System.Drawing.Size(222, 373);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.groupBox4.Size = new System.Drawing.Size(166, 303);
             this.groupBox4.TabIndex = 13;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Group C";
@@ -168,23 +176,25 @@
             this.GroupC_Box.DisplayMember = "Value";
             this.GroupC_Box.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupC_Box.FormattingEnabled = true;
-            this.GroupC_Box.ItemHeight = 16;
-            this.GroupC_Box.Location = new System.Drawing.Point(10, 25);
+            this.GroupC_Box.Location = new System.Drawing.Point(8, 21);
+            this.GroupC_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.GroupC_Box.Name = "GroupC_Box";
             this.GroupC_Box.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.GroupC_Box.Size = new System.Drawing.Size(202, 338);
+            this.GroupC_Box.Size = new System.Drawing.Size(150, 274);
             this.GroupC_Box.TabIndex = 6;
             this.GroupC_Box.ValueMember = "Key";
             this.GroupC_Box.SelectedIndexChanged += new System.EventHandler(this.Box_SelectedIndexChanged);
             this.GroupC_Box.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Configure_KeyDown);
+            this.GroupC_Box.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Box_MouseDown);
             // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.GroupD_Box);
-            this.groupBox5.Location = new System.Drawing.Point(1111, 22);
+            this.groupBox5.Location = new System.Drawing.Point(833, 18);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(10);
-            this.groupBox5.Size = new System.Drawing.Size(222, 373);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.groupBox5.Size = new System.Drawing.Size(166, 303);
             this.groupBox5.TabIndex = 14;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Group D";
@@ -195,21 +205,23 @@
             this.GroupD_Box.DisplayMember = "Value";
             this.GroupD_Box.Dock = System.Windows.Forms.DockStyle.Fill;
             this.GroupD_Box.FormattingEnabled = true;
-            this.GroupD_Box.ItemHeight = 16;
-            this.GroupD_Box.Location = new System.Drawing.Point(10, 25);
+            this.GroupD_Box.Location = new System.Drawing.Point(8, 21);
+            this.GroupD_Box.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.GroupD_Box.Name = "GroupD_Box";
             this.GroupD_Box.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.GroupD_Box.Size = new System.Drawing.Size(202, 338);
+            this.GroupD_Box.Size = new System.Drawing.Size(150, 274);
             this.GroupD_Box.TabIndex = 6;
             this.GroupD_Box.ValueMember = "Key";
             this.GroupD_Box.SelectedIndexChanged += new System.EventHandler(this.Box_SelectedIndexChanged);
             this.GroupD_Box.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Configure_KeyDown);
+            this.GroupD_Box.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Box_MouseDown);
             // 
             // OkBtn
             // 
-            this.OkBtn.Location = new System.Drawing.Point(41, 348);
+            this.OkBtn.Location = new System.Drawing.Point(31, 283);
+            this.OkBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.OkBtn.Name = "OkBtn";
-            this.OkBtn.Size = new System.Drawing.Size(66, 47);
+            this.OkBtn.Size = new System.Drawing.Size(50, 38);
             this.OkBtn.TabIndex = 15;
             this.OkBtn.TabStop = false;
             this.OkBtn.Tag = "";
@@ -221,9 +233,11 @@
             // 
             this.groupBox6.Controls.Add(this.RowBtn);
             this.groupBox6.Controls.Add(this.ColumnBtn);
-            this.groupBox6.Location = new System.Drawing.Point(12, 22);
+            this.groupBox6.Location = new System.Drawing.Point(9, 18);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(196, 59);
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox6.Size = new System.Drawing.Size(147, 48);
             this.groupBox6.TabIndex = 16;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Display Type";
@@ -231,9 +245,10 @@
             // RowBtn
             // 
             this.RowBtn.AutoSize = true;
-            this.RowBtn.Location = new System.Drawing.Point(118, 21);
+            this.RowBtn.Location = new System.Drawing.Point(88, 17);
+            this.RowBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.RowBtn.Name = "RowBtn";
-            this.RowBtn.Size = new System.Drawing.Size(63, 21);
+            this.RowBtn.Size = new System.Drawing.Size(52, 17);
             this.RowBtn.TabIndex = 1;
             this.RowBtn.Text = "Rows";
             this.RowBtn.UseVisualStyleBackColor = true;
@@ -242,9 +257,10 @@
             // 
             this.ColumnBtn.AutoSize = true;
             this.ColumnBtn.Checked = true;
-            this.ColumnBtn.Location = new System.Drawing.Point(29, 21);
+            this.ColumnBtn.Location = new System.Drawing.Point(22, 17);
+            this.ColumnBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.ColumnBtn.Name = "ColumnBtn";
-            this.ColumnBtn.Size = new System.Drawing.Size(83, 21);
+            this.ColumnBtn.Size = new System.Drawing.Size(65, 17);
             this.ColumnBtn.TabIndex = 0;
             this.ColumnBtn.TabStop = true;
             this.ColumnBtn.Text = "Columns";
@@ -253,9 +269,12 @@
             // CompactBox
             // 
             this.CompactBox.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CompactBox.Location = new System.Drawing.Point(22, 87);
+            this.CompactBox.Checked = true;
+            this.CompactBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CompactBox.Location = new System.Drawing.Point(16, 71);
+            this.CompactBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.CompactBox.Name = "CompactBox";
-            this.CompactBox.Size = new System.Drawing.Size(176, 24);
+            this.CompactBox.Size = new System.Drawing.Size(132, 20);
             this.CompactBox.TabIndex = 22;
             this.CompactBox.Text = "Enable Compact Mode";
             this.CompactBox.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -263,9 +282,10 @@
             // 
             // CancelBtn
             // 
-            this.CancelBtn.Location = new System.Drawing.Point(113, 348);
+            this.CancelBtn.Location = new System.Drawing.Point(85, 283);
+            this.CancelBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.CancelBtn.Name = "CancelBtn";
-            this.CancelBtn.Size = new System.Drawing.Size(66, 47);
+            this.CancelBtn.Size = new System.Drawing.Size(50, 38);
             this.CancelBtn.TabIndex = 23;
             this.CancelBtn.TabStop = false;
             this.CancelBtn.Text = "Cancel";
@@ -280,23 +300,86 @@
             this.groupBox7.Controls.Add(this.BackColorBtn);
             this.groupBox7.Controls.Add(this.ForeColorMissingBtn);
             this.groupBox7.Controls.Add(this.ForeColorFoundBtn);
-            this.groupBox7.Location = new System.Drawing.Point(12, 118);
+            this.groupBox7.Location = new System.Drawing.Point(9, 96);
+            this.groupBox7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(196, 163);
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox7.Size = new System.Drawing.Size(147, 132);
             this.groupBox7.TabIndex = 24;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Display Colors";
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(9, 86);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(100, 29);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Background";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(9, 52);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(100, 29);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Text (Item Missing)";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(9, 18);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(100, 29);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Text (Item Found)";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // BackColorBtn
+            // 
+            this.BackColorBtn.Location = new System.Drawing.Point(114, 86);
+            this.BackColorBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.BackColorBtn.Name = "BackColorBtn";
+            this.BackColorBtn.Size = new System.Drawing.Size(26, 29);
+            this.BackColorBtn.TabIndex = 5;
+            this.BackColorBtn.UseVisualStyleBackColor = true;
+            this.BackColorBtn.Click += new System.EventHandler(this.BackColorBtn_Click);
+            // 
+            // ForeColorMissingBtn
+            // 
+            this.ForeColorMissingBtn.Location = new System.Drawing.Point(114, 52);
+            this.ForeColorMissingBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ForeColorMissingBtn.Name = "ForeColorMissingBtn";
+            this.ForeColorMissingBtn.Size = new System.Drawing.Size(26, 29);
+            this.ForeColorMissingBtn.TabIndex = 4;
+            this.ForeColorMissingBtn.UseVisualStyleBackColor = true;
+            this.ForeColorMissingBtn.Click += new System.EventHandler(this.ForeColorMissingBtn_Click);
+            // 
+            // ForeColorFoundBtn
+            // 
+            this.ForeColorFoundBtn.Location = new System.Drawing.Point(114, 18);
+            this.ForeColorFoundBtn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.ForeColorFoundBtn.Name = "ForeColorFoundBtn";
+            this.ForeColorFoundBtn.Size = new System.Drawing.Size(26, 29);
+            this.ForeColorFoundBtn.TabIndex = 3;
+            this.ForeColorFoundBtn.UseVisualStyleBackColor = true;
+            this.ForeColorFoundBtn.Click += new System.EventHandler(this.ForeColorFoundBtn_Click);
             // 
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.Control;
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.textBox1.Location = new System.Drawing.Point(12, 287);
+            this.textBox1.Location = new System.Drawing.Point(9, 233);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(205, 55);
+            this.textBox1.Size = new System.Drawing.Size(154, 45);
             this.textBox1.TabIndex = 25;
             this.textBox1.TabStop = false;
             this.textBox1.Text = "Use the arrow keys to navigate the boxes. Hold CTRL to rearrange items.";
@@ -308,7 +391,8 @@
             this.shortcutsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1149, 28);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(4, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(862, 23);
             this.menuStrip1.TabIndex = 26;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.Visible = false;
@@ -323,14 +407,14 @@
             this.moveCursorLeftToolStripMenuItem,
             this.moveCursorRightToolStripMenuItem});
             this.shortcutsToolStripMenuItem.Name = "shortcutsToolStripMenuItem";
-            this.shortcutsToolStripMenuItem.Size = new System.Drawing.Size(82, 24);
+            this.shortcutsToolStripMenuItem.Size = new System.Drawing.Size(69, 19);
             this.shortcutsToolStripMenuItem.Text = "Shortcuts";
             // 
             // moveItemsUpToolStripMenuItem
             // 
             this.moveItemsUpToolStripMenuItem.Name = "moveItemsUpToolStripMenuItem";
             this.moveItemsUpToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Up)));
-            this.moveItemsUpToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.moveItemsUpToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.moveItemsUpToolStripMenuItem.Text = "Move Items Up";
             this.moveItemsUpToolStripMenuItem.Click += new System.EventHandler(this.moveItemsUpToolStripMenuItem_Click);
             // 
@@ -338,7 +422,7 @@
             // 
             this.moveItemsDownToolStripMenuItem.Name = "moveItemsDownToolStripMenuItem";
             this.moveItemsDownToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Down)));
-            this.moveItemsDownToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.moveItemsDownToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.moveItemsDownToolStripMenuItem.Text = "Move Items Down";
             this.moveItemsDownToolStripMenuItem.Click += new System.EventHandler(this.moveItemsDownToolStripMenuItem_Click);
             // 
@@ -346,7 +430,7 @@
             // 
             this.moveItemsLeftToolStripMenuItem.Name = "moveItemsLeftToolStripMenuItem";
             this.moveItemsLeftToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Left)));
-            this.moveItemsLeftToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.moveItemsLeftToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.moveItemsLeftToolStripMenuItem.Text = "Move Items Left";
             this.moveItemsLeftToolStripMenuItem.Click += new System.EventHandler(this.moveItemsLeftToolStripMenuItem_Click);
             // 
@@ -354,82 +438,28 @@
             // 
             this.moveItemsRightToolStripMenuItem.Name = "moveItemsRightToolStripMenuItem";
             this.moveItemsRightToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Right)));
-            this.moveItemsRightToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.moveItemsRightToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.moveItemsRightToolStripMenuItem.Text = "Move Items Right";
             this.moveItemsRightToolStripMenuItem.Click += new System.EventHandler(this.moveItemsRightToolStripMenuItem_Click);
             // 
             // moveCursorLeftToolStripMenuItem
             // 
             this.moveCursorLeftToolStripMenuItem.Name = "moveCursorLeftToolStripMenuItem";
-            this.moveCursorLeftToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.moveCursorLeftToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.moveCursorLeftToolStripMenuItem.Text = "Move Cursor Left";
             // 
             // moveCursorRightToolStripMenuItem
             // 
             this.moveCursorRightToolStripMenuItem.Name = "moveCursorRightToolStripMenuItem";
-            this.moveCursorRightToolStripMenuItem.Size = new System.Drawing.Size(285, 26);
+            this.moveCursorRightToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
             this.moveCursorRightToolStripMenuItem.Text = "Move Cursor Right";
-            // 
-            // ForeColorFoundBtn
-            // 
-            this.ForeColorFoundBtn.Location = new System.Drawing.Point(152, 22);
-            this.ForeColorFoundBtn.Name = "ForeColorFoundBtn";
-            this.ForeColorFoundBtn.Size = new System.Drawing.Size(34, 36);
-            this.ForeColorFoundBtn.TabIndex = 3;
-            this.ForeColorFoundBtn.UseVisualStyleBackColor = true;
-            this.ForeColorFoundBtn.Click += new System.EventHandler(this.ForeColorFoundBtn_Click);
-            // 
-            // ForeColorMissingBtn
-            // 
-            this.ForeColorMissingBtn.Location = new System.Drawing.Point(152, 64);
-            this.ForeColorMissingBtn.Name = "ForeColorMissingBtn";
-            this.ForeColorMissingBtn.Size = new System.Drawing.Size(34, 36);
-            this.ForeColorMissingBtn.TabIndex = 4;
-            this.ForeColorMissingBtn.UseVisualStyleBackColor = true;
-            this.ForeColorMissingBtn.Click += new System.EventHandler(this.ForeColorMissingBtn_Click);
-            // 
-            // BackColorBtn
-            // 
-            this.BackColorBtn.Location = new System.Drawing.Point(152, 106);
-            this.BackColorBtn.Name = "BackColorBtn";
-            this.BackColorBtn.Size = new System.Drawing.Size(34, 36);
-            this.BackColorBtn.TabIndex = 5;
-            this.BackColorBtn.UseVisualStyleBackColor = true;
-            this.BackColorBtn.Click += new System.EventHandler(this.BackColorBtn_Click);
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(12, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(134, 36);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Text (Item Found)";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(12, 64);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(134, 36);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Text (Item Missing)";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(12, 106);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(134, 36);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Background";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Configure
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1345, 409);
+            this.ClientSize = new System.Drawing.Size(1010, 339);
             this.ControlBox = false;
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.groupBox7);
@@ -444,8 +474,9 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.MaximumSize = new System.Drawing.Size(1363, 456);
-            this.MinimumSize = new System.Drawing.Size(1363, 456);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.MaximumSize = new System.Drawing.Size(1026, 378);
+            this.MinimumSize = new System.Drawing.Size(1026, 378);
             this.Name = "Configure";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Configure Layout";
@@ -493,11 +524,11 @@
         private System.Windows.Forms.ToolStripMenuItem moveItemsRightToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveCursorLeftToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveCursorRightToolStripMenuItem;
-        private System.Windows.Forms.Button BackColorBtn;
-        private System.Windows.Forms.Button ForeColorMissingBtn;
-        private System.Windows.Forms.Button ForeColorFoundBtn;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        public System.Windows.Forms.Button BackColorBtn;
+        public System.Windows.Forms.Button ForeColorMissingBtn;
+        public System.Windows.Forms.Button ForeColorFoundBtn;
     }
 }

@@ -14,7 +14,7 @@ namespace DSItemTracker
     {
         public Color ForeColorFound = Color.White;
         public Color ForeColorMissing = Color.DarkRed;
-        public Color BackColor = Color.Black;
+        public Color BackgroundColor = Color.Black;
         public SortedList<int, string> Untracked = new SortedList<int, string>();
         public List<KeyDisplay> GroupA;
         public List<KeyDisplay> GroupB;
@@ -32,7 +32,7 @@ namespace DSItemTracker
             boxes = new ListBox[] { UntrackedBox, GroupA_Box, GroupB_Box, GroupC_Box, GroupD_Box };
             ForeColorFoundBtn.BackColor = ForeColorFound;
             ForeColorMissingBtn.BackColor = ForeColorMissing;
-            BackColorBtn.BackColor = BackColor;
+            BackColorBtn.BackColor = BackgroundColor;
         }
 
         private void OkBtn_Click(object sender, EventArgs e)
@@ -54,6 +54,7 @@ namespace DSItemTracker
                 Untracked[kv.Key] = kv.Value;
             }
         }
+
         private  List<KeyDisplay> ListFromBox(ListBox box)
         {
             if (box.Items.Count == 0) return null;
@@ -258,7 +259,7 @@ namespace DSItemTracker
             dialog.AnyColor = true;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                ForeColorFound = dialog.Color;
+                ForeColorMissing = dialog.Color;
                 ForeColorMissingBtn.BackColor = dialog.Color;
             }
         }
@@ -266,15 +267,20 @@ namespace DSItemTracker
         private void BackColorBtn_Click(object sender, EventArgs e)
         {
             var dialog = new ColorDialog();
-            dialog.Color = BackColor;
+            dialog.Color = BackgroundColor;
             dialog.AllowFullOpen = false;
             dialog.AnyColor = true;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                BackColor = dialog.Color;
+                BackgroundColor = dialog.Color;
                 BackColorBtn.BackColor = dialog.Color;
 
             }
+        }
+
+        private void Box_MouseDown(object sender, MouseEventArgs e)
+        {
+
         }
     }
 }

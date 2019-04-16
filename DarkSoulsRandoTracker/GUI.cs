@@ -45,7 +45,11 @@ namespace DSItemTracker
                 var keys = items.Where(i => i.Category == 4 && KeyNames.Keys.Contains(i.ID));
                 var rings = items.Where(i => i.Category == 2 && RingNames.Keys.Contains(i.ID));
                 var itemIDs = keys.Concat(rings).Select(i => i.ID);
-                foreach (int i in Display.Keys) Display[i].SetFound(itemIDs.Contains(i));
+                foreach (int i in Display.Keys)
+                {
+                    if (!Display[i].Collected)
+                        Display[i].SetFound(itemIDs.Contains(i));
+                }
             }
 
             RingNames[138] = "Covenant of Artorias";
@@ -95,6 +99,16 @@ namespace DSItemTracker
                 config.CompactBox.Checked = Layout.Compact;
                 config.ColumnBtn.Checked = Layout.Columns;
                 config.RowBtn.Checked = !Layout.Columns;
+
+                config.BackgroundColor = Layout.BackColor;
+                config.BackColorBtn.BackColor = Layout.BackColor;
+
+                config.ForeColorFound = Layout.ForeColorFound;
+                config.ForeColorFoundBtn.BackColor = Layout.ForeColorFound;
+
+                config.ForeColorMissing = Layout.ForeColorMissing;
+                config.ForeColorMissingBtn.BackColor = Layout.ForeColorMissing;
+
                 foreach (var item in Layout.Untracked) config.UntrackedBox.Items.Add(item);
                 for (int i = 0; i < Layout.Groups.Count; i++)
                 {
@@ -110,7 +124,7 @@ namespace DSItemTracker
             }
         }
 
-        public void WriteLayoutToXML()
+        public void WriteLayoutToXML(bool def = false)
         {
             if (Layout == null) return;
             var doc = new XmlDocument();
@@ -152,8 +166,17 @@ namespace DSItemTracker
             root.AppendChild(untrackedNode);
             doc.AppendChild(root);
 
+            if (def)
+            {
+                doc.Save("Default.xml");
+                return;
+            }
+
             var sfd = new SaveFileDialog();
             sfd.Title = "Save XML File";
+            sfd.InitialDirectory = Directory.GetCurrentDirectory();
+            sfd.Filter = "XML Files|*.xml";
+            sfd.DefaultExt = "xml";
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 if (!sfd.FileName.ToLower().EndsWith(".xml")) sfd.FileName += ".xml";
@@ -183,13 +206,12 @@ namespace DSItemTracker
                 Columns = c.ColumnBtn.Checked;
                 Compact = c.CompactBox.Checked;
                 Untracked = c.Untracked;
-                Untracked.OrderBy(i => i.Value);
                 if (Columns) g.KeyGroupPanel.FlowDirection = FlowDirection.LeftToRight;
                 else g.KeyGroupPanel.FlowDirection = FlowDirection.TopDown;
 
                 ForeColorFound = c.ForeColorFound;
                 ForeColorMissing = c.ForeColorMissing;
-                BackColor = c.BackColor;
+                BackColor = c.BackgroundColor;
 
                 g.KeyGroupPanel.BackColor = BackColor;
 
@@ -199,7 +221,7 @@ namespace DSItemTracker
                     Groups.Add(list);
                     var p = PanelFromList(list);
                     p.AutoSize = true;
-                    p.AutoSizeMode = AutoSizeMode.GrowOnly;
+                    p.AutoSizeMode = AutoSizeMode.GrowAndShrink;
                     p.FlowDirection = Columns ? FlowDirection.TopDown : FlowDirection.LeftToRight;
                     g.KeyGroupPanel.Controls.Add(p);
                 }
@@ -208,24 +230,32 @@ namespace DSItemTracker
             private FlowLayoutPanel PanelFromList(List<KeyDisplay> list)
             {
                 var p = new FlowLayoutPanel();
-                p.Margin = new Padding(10);
+                p.Margin = new Padding(0);
+                p.Padding = new Padding(0);
                 foreach (var c in list)
                 {
                     Display[c.ID] = c;
                     if (Compact)
                     {
+                        c.Margin = new Padding(0);
+                        c.Padding = new Padding(0);
                         c.KeyName.Visible = false;
-                        c.Height = 98;
-                        c.Width = 90;
+                        c.Height = 90;
+                        c.Width = 80;
+                        c.KeyPic.Height = 80;
+                        c.KeyPic.Width = 80;
                     }
                     else
                     {
+                        c.Margin = new Padding(0);
+                        c.Padding = new Padding(0);
                         c.KeyName.Visible = true;
                         c.Height = 121;
-                        c.Width = 200;
+                        c.Width = 90;
+                        c.KeyPic.Width = 120;
+                        c.KeyName.Width = 120;
                     }
                     p.Controls.Add(c);
-
                 }
                 return p;
             }
@@ -257,12 +287,12 @@ namespace DSItemTracker
                 NodeToBox(doc.GetElementsByTagName("Untracked")[0], config.UntrackedBox, true);
 
                 var options = doc.GetElementsByTagName("Options")[0];
-                bool columns = options.Attributes["Columns"].Value == "true";
+                bool columns = bool.Parse(options.Attributes["Columns"].Value);
                 config.ColumnBtn.Checked = columns;
                 config.RowBtn.Checked = !columns;
 
-                config.CompactBox.Checked = options.Attributes["Compact"].Value == "true";
-                config.BackColor = Color.FromArgb(int.Parse(options.Attributes["BackColor"].Value));
+                config.CompactBox.Checked = bool.Parse(options.Attributes["Compact"].Value);
+                config.BackgroundColor = Color.FromArgb(int.Parse(options.Attributes["BackColor"].Value));
                 config.ForeColorFound = Color.FromArgb(int.Parse(options.Attributes["ForeColorFound"].Value));
                 config.ForeColorMissing = Color.FromArgb(int.Parse(options.Attributes["ForeColorMissing"].Value));
 
@@ -280,11 +310,13 @@ namespace DSItemTracker
         {
             var ofd = new OpenFileDialog();
             ofd.Title = "Select XML File";
+            ofd.InitialDirectory = Directory.GetCurrentDirectory();
+            ofd.DefaultExt = "xml";
+            ofd.Filter = "XML Files|*.xml";
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 ReadLayoutFromXMLFile(ofd.FileName);
             }
-
         }
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
@@ -295,6 +327,33 @@ namespace DSItemTracker
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ReadLayoutFromXML();
+        }
+
+        private void restartTrackerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var items = Hook.GetInventoryItems().Where(i => i.Quantity > 0);
+            var keys = items.Where(i => i.Category == 4 && KeyNames.Keys.Contains(i.ID));
+            var rings = items.Where(i => i.Category == 2 && RingNames.Keys.Contains(i.ID));
+            var itemIDs = keys.Concat(rings).Select(i => i.ID);
+            foreach (int i in Display.Keys) Display[i].SetFound(false);
+        }
+
+        private void setWindowSizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new WindowSize(this).ShowDialog();
+        }
+
+        private void saveAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                WriteLayoutToXML(true);
+                MessageBox.Show("Default layout saved.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }
